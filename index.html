@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Laporan Keuangan — 17 Agustus 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="laporan.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-ribbon">
+        <div class="dot"></div>
+        <span>Laporan Keuangan RW 13</span>
+        <div class="dot"></div>
+      </div>
+      <h1>HUT RI ke-<em>80</em></h1>
+      <p class="header-date">17 Agustus 2026 &nbsp;&middot;&nbsp; Rekapitulasi Uang Masuk</p>
+      <div class="header-flag">
+        <div class="r"></div>
+        <div class="w"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+    <div class="sec-label"><div class="ln"></div><span>Ringkasan</span><div class="ln"></div></div>
+    <div class="hero-total">
+      <div class="ht-label">Total Pemasukan</div>
+      <div class="ht-val" id="hero-total">Rp 0</div>
+      <div class="ht-sub" id="hero-sub">0 transaksi tercatat</div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="sc-label">Transaksi</div>
+        <div class="sc-val" id="s-count">0</div>
+        <div class="sc-note">entri</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-label">Rata-rata</div>
+        <div class="sc-val" id="s-avg">Rp 0</div>
+        <div class="sc-note">per transaksi</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-label">Terbesar</div>
+        <div class="sc-val" id="s-max">Rp 0</div>
+        <div class="sc-note" id="s-max-name">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="sc-label">Kategori Utama</div>
+        <div class="sc-val" id="s-topkat" style="font-size:16px;margin-top:2px">—</div>
+        <div class="sc-note" id="s-topkat-val">—</div>
+      </div>
+    </div>
+
+    <div class="sec-label"><div class="ln"></div><span>Per Kategori</span><div class="ln"></div></div>
+    <div class="chart-card" id="chart-area">
+      <div class="empty">Belum ada data</div>
+    </div>
+
+    <div class="sec-label"><div class="ln"></div><span>Tambah Pemasukan</span><div class="ln"></div></div>
+    <div class="form-card">
+      <div class="field-row">
+        <div class="field">
+          <label>Tanggal</label>
+          <input type="date" id="f-tgl">
+        </div>
+        <div class="field">
+          <label>Kategori</label>
+          <select id="f-kat">
+            <option value="kontribusi">Kontribusi</option>
+            <option value="sponsor">Sponsor</option>
+            <option value="donasi">Donasi</option>
+            <option value="usaha">Usaha/Bazaar</option>
+            <option value="tiket">Tiket Acara</option>
+            <option value="lainnya">Lainnya</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Nama / Sumber</label>
+        <input type="text" id="f-nama" placeholder="cth. Warga RT 01, Pak Budi…">
+      </div>
+      <div class="field">
+        <label>Keterangan</label>
+        <input type="text" id="f-ket" placeholder="cth. Iuran per KK">
+      </div>
+      <div class="field">
+        <label>Jumlah (Rp)</label>
+        <input type="number" id="f-jml" placeholder="500000" min="0" inputmode="numeric">
+      </div>
+      <button class="btn-tambah" onclick="tambah()">+ Tambah</button>
+    </div>
+
+    <div class="sec-label"><div class="ln"></div><span>Rincian</span><div class="ln"></div></div>
+    <div class="table-outer">
+      <div class="tbl-head">
+        <span>#</span>
+        <span>Sumber</span>
+        <span style="text-align:right">Jumlah</span>
+        <span></span>
+      </div>
+      <div id="tbl-body"></div>
+      <div class="tbl-total">
+        <div class="tt-label">Total</div>
+        <div class="tt-val" id="tbl-tot">Rp 0</div>
+        <div></div>
+      </div>
+    </div>
+
+    <div class="sec-label"><div class="ln"></div><span>Riwayat Dihapus</span><div class="ln"></div></div>
+    <div class="table-outer">
+      <div class="tbl-head">
+        <span>#</span>
+        <span>Sumber</span>
+        <span style="text-align:right">Jumlah</span>
+        <span></span>
+      </div>
+      <div id="riwayat-body"></div>
+    </div>
+
+    <div class="sec-label"><div class="ln"></div><span>Unduh / Ekspor</span><div class="ln"></div></div>
+    <div class="export-row">
+      <button class="btn-exp pdf" onclick="expPDF()"><span class="exp-icon">⬇</span>PDF</button>
+      <button class="btn-exp csv" onclick="expCSV()"><span class="exp-icon">📄</span>CSV</button>
+      <button class="btn-exp prt" onclick="window.print()"><span class="exp-icon">🖨</span>Cetak</button>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <p>Peringatan <span>HUT RI ke-80</span> · 17 Agustus 2026</p>
+  </div>
+
+  <script type="module" src="laporan.js"></script>
+
+</body>
+</html>
